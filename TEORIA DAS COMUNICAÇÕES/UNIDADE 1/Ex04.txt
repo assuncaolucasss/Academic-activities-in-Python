@@ -1,0 +1,5 @@
+O valor da potência recebida em dBm é uma representação logarítmica
+da potência recebida em miliwatts. dBm é comumente usado em comunicação sem fio para expressar a potência de um sinal relativo para um miliwatt. 
+Isso facilita a comparação dos níveis de potência
+de sinais diferentes e fazer interpretações significativas dos dados.
+Um valor de potência recebida mais alto em dBm significa um sinal mais forte.

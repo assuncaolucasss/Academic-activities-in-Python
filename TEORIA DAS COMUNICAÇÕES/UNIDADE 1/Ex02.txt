@@ -1,0 +1,1 @@
+Podemos ver que o sinal quantizado tem algumas diferenças perceptíveis em comparação com o sinal original. O valor do PSNR nos dá uma ideia de quão "bom" é o sinal quantizado, em relação ao original. Um valor PSNR mais alto significa uma melhor qualidade do sinal quantizado.

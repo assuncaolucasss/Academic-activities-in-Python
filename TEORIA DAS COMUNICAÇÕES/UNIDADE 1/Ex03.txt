@@ -1,0 +1,1 @@
+Podemos ver que o sinal ruidoso tem diferenças perceptíveis em relação ao sinal original. O valor SNR nos dá uma ideia de quão "bom" é o sinal ruidoso em relação ao original. Um valor SNR mais alto significa uma melhor qualidade do sinal ruidoso.
