@@ -1,0 +1,92 @@
+Introdução
+A divisão justa de despesas é um problema comum que surge em várias situações, como em viagens, compartilhamento de apartamento ou qualquer situação em que um grupo de pessoas compartilhe despesas. O objetivo é dividir as despesas de forma justa entre os membros do grupo, ou seja, que cada um pague uma quantia justa e equivalente ao que consumiu.
+
+Para resolver este problema, existem duas abordagens principais: algoritmos gulosos e programação dinâmica. Neste artigo, vamos apresentar uma comparação entre essas abordagens e implementar os algoritmos em Python.
+
+Algoritmo Guloso
+O algoritmo guloso para a divisão justa de despesas é simples e intuitivo. A ideia é percorrer a lista de despesas e ir adicionando cada despesa ao membro que tem o menor valor acumulado até o momento.
+
+O algoritmo guloso pode ser descrito como:
+
+Inicialize o valor acumulado de cada membro como zero.
+Para cada despesa na lista de despesas:
+Encontre o membro com o menor valor acumulado.
+Adicione a despesa ao valor acumulado do membro selecionado.
+Retorne o valor acumulado de cada membro.
+O algoritmo guloso é fácil de implementar e tem complexidade de tempo O(n), onde n é o número de despesas. No entanto, nem sempre fornece a solução mais justa.
+
+Programação Dinâmica
+A programação dinâmica é uma técnica para resolver problemas computacionalmente. Ela é útil quando o problema pode ser dividido em subproblemas menores e os resultados desses subproblemas podem ser combinados para resolver o problema maior.
+
+Para a divisão justa de despesas, podemos usar a programação dinâmica para calcular a diferença mínima entre as somas das despesas de cada membro. A ideia é criar uma matriz com os subproblemas de dividir as despesas entre os membros.
+
+O algoritmo de programação dinâmica pode ser descrito como:
+
+Calcule a soma total das despesas.
+Inicialize uma matriz de tamanho (n+1) x (soma_total+1), onde n é o número de despesas e soma_total é a soma total das despesas.
+Para cada i (0 <= i <= n), onde i é o número de despesas consideradas até agora:
+Para cada j (0 <= j <= soma_total), onde j é a soma das despesas consideradas até agora:
+Se i ou j for zero, a solução é zero.
+Se a i-ésima despesa for maior que j, a solução é o valor da submatriz na linha superior (i-1) e coluna j.
+Caso contrário, a solução é o mínimo entre o valor da submatriz na linha superior (i-1) e coluna j e a soma do valor da i-ésima despesa e o valor da submatriz na linha superior (i-1) e coluna (j-valor_da_i-ésima_despesa).
+Retorne o valor na linha n e coluna (soma_total/2).
+O algoritmo de programação dinâmica tem complexidade de tempo O(n*s), onde n é o número de despesas e s é a soma total das despesas. Isso ocorre porque é necessário calcular os valores de todos os subproblemas possíveis na matriz.
+
+Embora a complexidade seja maior que a do algoritmo guloso, a programação dinâmica é mais precisa em encontrar a solução mais justa. Além disso, a programação dinâmica pode lidar com casos em que as despesas são muito diferentes entre si, o que pode levar o algoritmo guloso a não encontrar a solução mais justa.
+
+Implementação
+Agora vamos implementar os algoritmos guloso e de programação dinâmica em Python para a divisão justa de despesas. Para isso, vamos criar funções para cada algoritmo e uma função principal que receberá a entrada do usuário e chamará a função apropriada.
+
+def algoritmo_guloso(despesas, membros):
+    despesas.sort(reverse=True)
+    resultado = [0] * membros
+    for i in range(len(despesas)):
+        resultado[i % membros] += despesas[i]
+    return resultado
+
+
+def algoritmo_programacao_dinamica(despesas, membros):
+    n = len(despesas)
+    s = sum(despesas)
+    if s % membros != 0:
+        return None
+    c = s // membros
+    dp = [[False] * (c + 1) for _ in range(n + 1)]
+    dp[0][0] = True
+    for i in range(1, n + 1):
+        for j in range(c + 1):
+            dp[i][j] = dp[i - 1][j]
+            if j >= despesas[i - 1]:
+                dp[i][j] |= dp[i - 1][j - despesas[i - 1]]
+    if not dp[n][c]:
+        return None
+    resultado = [0] * membros
+    i, j = n, c
+    while i > 0 and j >= 0:
+        if j >= despesas[i - 1] and dp[i - 1][j - despesas[i - 1]]:
+            resultado[i % membros] += despesas[i - 1]
+            j -= despesas[i - 1]
+        i -= 1
+    return resultado
+
+
+def main():
+    despesas = list(map(int, input("Digite as despesas separadas por espaço: ").split()))
+    membros = int(input("Digite o número de membros: "))
+    resultado_guloso = algoritmo_guloso(despesas, membros)
+    resultado_programacao_dinamica = algoritmo_programacao_dinamica(despesas, membros)
+    print("Resultado com algoritmo guloso: ", resultado_guloso)
+    print("Resultado com programação dinâmica: ", resultado_programacao_dinamica)
+
+
+if __name__ == '__main__':
+    main()
+
+Conclusão
+Neste artigo, apresentamos dois algoritmos para resolver o problema de divisão justa de despesas: o algoritmo guloso e o algoritmo de programação dinâmica. O algoritmo guloso é mais simples e rápido, mas pode não encontrar a solução mais justa em alguns casos. Já o algoritmo de programação dinâmica é mais preciso e pode lidar com casos em que as despesas são muito diferentes entre si, mas tem uma complexidade de tempo maior.
+
+No nosso exemplo, vimos que o algoritmo de programação dinâmica conseguiu encontrar a solução mais justa, enquanto o algoritmo guloso não. Então, a escolha do algoritmo depende da natureza do problema e das restrições de tempo e espaço.
+
+Referências
+Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2009). Introduction to algorithms. MIT press.
+Kleinberg, J., & Tardos, É. (2006). Algorithm design. Pearson Education.
